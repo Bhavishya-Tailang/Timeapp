@@ -1,0 +1,88 @@
+body {
+    background: linear-gradient(45deg, #FC466B, #3F5EFB);
+    height: 100vh;
+    font-family: 'Roboto';
+    font-size: 22px;
+}
+
+#text {
+    font-size: 35px;
+    color: rgb(200, 102, 102);
+}
+
+form {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 3em;
+    height: 320px;
+    border-radius: 20px;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+}
+
+#roleForDashboard, #submitDashboard:hover {
+    cursor: pointer;
+}
+
+input, select {
+    background: transparent;
+    width: 200px;
+    padding: 1em;
+    margin-bottom: 2em;
+    border: none;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-radius: 5000px;
+    backdrop-filter: blur(5px);
+    box-shadow: 4px 4px 60px rgba(0,0,0,0.2);
+    color: rgb(115, 55, 55);
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+    
+     input:hover {
+      background: rgba(255,255,255,0.1);
+      box-shadow: 4px 4px 60px 8px rgba(0,0,0,0.2);
+    }
+
+    
+  #submitDashboard {
+    background: transparent;
+    width: 100px;
+    padding: 1em;
+    margin-bottom: 2em;
+    border: none;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-radius: 5000px;
+    backdrop-filter: blur(5px);
+    box-shadow: 4px 4px 60px rgba(0,0,0,0.2);
+    color: rgb(115, 55, 55);
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  }
+
+    
+    #submitDashboard:active {
+      background: rgba(255,255,255,0.2);
+    }
+
+
+    #submitDashboard:hover {
+  margin: 4px;
+}
+
+::placeholder {
+font-family: Montserrat, sans-serif;
+font-weight: 400;
+color: #fff;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.4); 
+}
