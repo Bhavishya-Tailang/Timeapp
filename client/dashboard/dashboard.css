@@ -52,7 +52,7 @@ input, select {
     }
 
     
-  #submitDashboard {
+  #submit {
     background: transparent;
     width: 100px;
     padding: 1em;
@@ -71,12 +71,12 @@ input, select {
   }
 
     
-    #submitDashboard:active {
+    #submit:active {
       background: rgba(255,255,255,0.2);
     }
 
 
-    #submitDashboard:hover {
+    #submit:hover {
   margin: 4px;
 }
 

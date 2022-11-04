@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
+    xyz()
     localStorage.removeItem('username');
-    fetch('http://localhost:3000/getUserRoles/')
+    fetch(`${baseAddress}/getUserRoles/`)
       .then((res) => res.json())
       .then((response) => {
         populateRolesDropdown(response)
       })
       .catch((err) => console.log(err));
-
 });
 
 function populateRolesDropdown(itemsArr) {
@@ -33,7 +33,7 @@ function initiateLogin() {
     const passwordInput = document.querySelector('#password');
     const password = passwordInput.value;
     passwordInput.value = "";
-    fetch('http://localhost:3000/checkLogin', {
+    fetch( `${baseAddress}/checkLogin`, {
         headers: {
             'Content-type': 'application/json',
             'WWW-Authenticate': 'FormBased'

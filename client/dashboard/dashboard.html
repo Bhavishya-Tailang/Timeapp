@@ -10,19 +10,23 @@
 </head>
 <body>
     <h4 id="text"></h4>
-    <form method="post" action="">
+    <form method="post" action="javascript:createUser()">
         <div>
     <!-- <label for="nameDashboard">Name </label> -->
-    <input type="text" id="" placeholder="enter name" name="nameDashboard" required/>
+    <input type="text" id="name" placeholder="enter name" name="nameDashboard" required/>
     <br><br>
     <!-- <label for="usernameDashboard">Username </label> -->
-    <input type="text" id="usernameDashboard" placeholder="enter username" name="username" required/><br><br>
+    <input type="text" id="username" placeholder="enter username" name="username" onfocusout = "checkUserExists()" required/>
+    <p id="userExists"></p>
+    
     <!-- <label for="roleForDashboard">Role</label> -->
-    <select name="roleForDashboard" id="roleForDashboard">
-    </select><br><br>
-    <button id="submitDashboard">Submit</button>
+    <select name="roleForDashboard" id="role">
+    </select><br>
+    <input type="submit" id="submit"></input>
 </div>
     </form>
+    <script src="../services.js"></script>
+    <script src="../utils.js"></script>
     <script src="dashboard.js"></script>
 </body>
 </html>

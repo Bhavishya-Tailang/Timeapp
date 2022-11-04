@@ -101,6 +101,36 @@ class Dbservice {
             console.log(error);
         }
     }
+
+    //check for duplicate user
+    async checkUserExists(username) {
+        const response = await new Promise((resolve, reject) => {
+            const query = `SELECT 1 FROM userdetails WHERE username = ?;`
+
+            connection.query(query, [username], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve(results);
+            })
+        })
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+
+    // getting all users
+    async getAllUsers(name, username, role) {
+        const response = await new Promise((resolve, reject) => {
+            const query = `SELECT * FROM userdetails;`
+
+            connection.query(query, [name, username, role], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve(results);
+            })
+        })
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
