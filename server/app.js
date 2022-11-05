@@ -97,9 +97,8 @@ app.get("/checkUserExists/:username", (req, res) => {
 
 //getting all users
 app.get("/getAllUsers", (req, res) => {
-    const { username, role, password } = req.body;
     const db= dbService.getInstance();
-    db.getAllUsers(username, role, password)
+    db.getAllUsers()
     .then((data) => res.json(data))
     .catch((err) => console.log(err));
 })

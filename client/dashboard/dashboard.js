@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`${baseAddress}/getUserDetails/${username}`)
     .then((res) => res.json())
     .then((response) => {
-      getUserRoles(response)
+      getUserRoles(response);
       actionAfterGettingUserDetails(response);
+      getAllUsers();
     })
     .catch((err) => console.log(err));
 });
@@ -80,7 +81,8 @@ function createUser() {
     body: JSON.stringify({name, username, role, password}),
   }).then(() => {
     console.log("User created successfully")
-    
+    getAllUsers();
+    showHideCreateNewModal()
   })
   .catch(() =>console.log("Something went wrong"));
 }
@@ -102,7 +104,53 @@ function checkUserExists() {
       userExistMessage.textContent = "username available"
     }
   }) 
-  
+}
+
+
+function loadHTMLTable(data) {
+  const table = document.querySelector("table tbody");
+
+  console.log(data);
+
+  //if data is empty inside the table
+  if (data.length === 0) {
+    table.innerHTML = "<tr><td class='no-data' colspan='4'>No Data</td></tr>";
+    return;
+  }
+  let tableHtml = "";
+
+  data.forEach(({ id, name, username, role }, idx) => {
+    tableHtml += "<tr>";
+    tableHtml += `<td>${idx + 1}</td>`;
+    tableHtml += `<td>${name}</td>`;
+    tableHtml += `<td>${username}</td>`;
+    tableHtml += `<td>${role}</td>`;
+    tableHtml += `<td><button id=${username}_${id}_edit>Edit</button></td>`;
+    tableHtml += `<td><button id=${username}_${id}_delete>Delete</button></td>`;
+    tableHtml += "</tr>";
+  });
+  table.innerHTML = tableHtml;
+}
+
+function getAllUsers() {
+  fetch(`${baseAddress}/getAllUsers`, {
+    headers: {
+      'Content-type': 'application/json'
+    },
+  }).then((res) => res.json())
+  .then((data) => {
+    console.log("User created successfully")
+    loadHTMLTable(data);
+  })
+  .catch(() =>console.log("Something went wrong"));
+}
+
+function showHideCreateNewModal() {
+
+  const modal = document.querySelector('#modalCreate')
+  const backdrop = document.querySelector('.backdrop')
+  modal.classList.toggle('d-none')
+  backdrop.classList.toggle('d-none')
 }
 
 

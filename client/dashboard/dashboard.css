@@ -24,10 +24,6 @@ form {
     transition: all 0.2s ease-in-out;
 }
 
-#roleForDashboard, #submitDashboard:hover {
-    cursor: pointer;
-}
-
 input, select {
     background: transparent;
     width: 200px;
@@ -52,7 +48,7 @@ input, select {
     }
 
     
-  #submit {
+  #submit, #cancel {
     background: transparent;
     width: 100px;
     padding: 1em;
@@ -85,4 +81,30 @@ font-family: Montserrat, sans-serif;
 font-weight: 400;
 color: #fff;
 text-shadow: 2px 2px 4px rgba(0,0,0,0.4); 
+}
+
+#modalCreate {
+  position:absolute;
+  z-index: 10000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.d-none {
+  display: none;
+}
+
+.d-block {
+  display: block;
+}
+
+.backdrop {
+  height: 100vh;
+  width:100vw;
+  background-color: black;
+  opacity: 0.7;
+  position: absolute;
+  top:0;
+  left:0;
 }

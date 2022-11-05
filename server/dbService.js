@@ -118,11 +118,11 @@ class Dbservice {
     }
 
     // getting all users
-    async getAllUsers(name, username, role) {
+    async getAllUsers() {
         const response = await new Promise((resolve, reject) => {
-            const query = `SELECT * FROM userdetails;`
+            const query = `SELECT * FROM userdetails where role != "admin";`
 
-            connection.query(query, [name, username, role], (err, results) => {
+            connection.query(query, [], (err, results) => {
                 if (err) reject(new Error(err.message));
                 resolve(results);
             })
