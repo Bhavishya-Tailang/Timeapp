@@ -106,3 +106,26 @@ app.get("/getAllUsers", (req, res) => {
 app.listen("3000", () => {
   console.log("App is running");
 });
+
+//update users
+app.patch('/updateUsers', (req, res) => {
+  const {name, username, role} = req.body;
+  const db = dbService.getInstance();
+
+  const result = db.updateUsers(name, username, role);  
+
+  result 
+  .then(data => res.json({success: "record updated successfully"}))
+  .catch(err => console.log(err)) 
+});
+
+//delete users with update query
+app.delete('/deleteUsers/:username', (req, res) => {
+  const {username} = req.params;
+  console.log(req.body);
+  const db = dbService.getInstance();
+  const result = db.deleteUsers(username);  
+  result 
+  .then(() => res.json({success: "record deleted successfully"}))
+  .catch(err => console.log(err)) 
+});

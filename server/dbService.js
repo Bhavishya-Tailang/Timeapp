@@ -131,7 +131,37 @@ class Dbservice {
     } catch (error) {
         console.log(error);
     }
+    //update users 
+    async updateUsers(id, name, username, role) {
+        const response = await new Promise((resolve, reject) => {
+            const query = `UPDATE userdetails SET name=?, role=? WHERE id=? and username=?;`
+
+            connection.query(query, [id, name, username, role], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve(results);
+            })
+        })
+        return response;
+    } catch(error) {
+        console.log(error);
+    }
+
+    //delete users 
+    async deleteUsers(username) {
+        const response = await new Promise((resolve, reject) => {
+            const query = `DELETE FROM userdetails WHERE username=?;`
+
+            connection.query(query, [username], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve(results);
+            })
+        })
+        return response;
+    } catch(error) {
+        console.log(error);
+    }
 }
+
 
 
   module.exports = Dbservice;
