@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express');
 const mysql = require('mysql');
 let instance = null;
@@ -136,7 +137,7 @@ class Dbservice {
         const response = await new Promise((resolve, reject) => {
             const query = `UPDATE userdetails SET name=?, role=? WHERE id=? and username=?;`
 
-            connection.query(query, [id, name, username, role], (err, results) => {
+            connection.query(query, [name, role, id, username], (err, results) => {
                 if (err) reject(new Error(err.message));
                 resolve(results);
             })
@@ -147,16 +148,16 @@ class Dbservice {
     }
 
     //delete users 
-    async deleteUsers(username) {
+    async deleteUsers(username, id) {
         const response = await new Promise((resolve, reject) => {
-            const query = `DELETE FROM userdetails WHERE username=?;`
+            const query = `DELETE FROM userdetails WHERE username=? AND id=?;`
 
-            connection.query(query, [username], (err, results) => {
+            connection.query(query, [username, id], (err, results) => {
                 if (err) reject(new Error(err.message));
-                resolve(results);
+                resolve(results.affectedRows);
             })
         })
-        return response;
+        return response > 0
     } catch(error) {
         console.log(error);
     }

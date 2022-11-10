@@ -60,8 +60,7 @@ DOne:
 
         Create relationship table - employeeRelations
         id, date, delete, username, managerId, projectCode
-ram - saurabh
-shyam - saruabh
-raju- saurabh
-hira - ramesh
-kamal - ramesh
+
+
+updateUser - put api/patch api - name, username, role update query inn db
+deleteUser - put - delete 0 -> 1

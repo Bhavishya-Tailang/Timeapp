@@ -44,19 +44,48 @@
         </div>
       </form>
     </div>
-    
+    <div id="editModal" class="d-none">
+      <form method="patch" action="javascript:updateUser()">
+        <div>
+          <!-- <label for="nameDashboard">Name </label> -->
+          <input
+            type="text" 
+            id="editName"
+            placeholder="enter name"
+            name="name"
+            required
+          />
+          <br /><br />
+          <!-- <label for="usernameDashboard">Username </label> -->
+          <input
+            type="text"
+            id="editUsername"
+            placeholder="enter username"
+            name="username"
+            disabled
+          />
+          <!-- <label for="roleForDashboard">Role</label> -->
+          <select name="roleForDashboard" id="editRole"></select
+          ><br />
+          <input type="text" id="hiddenUserId" hidden>
+          <input type="submit" id="editSubmit" />
+          <button id="editCancel" onclick="showHideEditNewModal(event)">Cancel</button>
+        </div>
+      </form>
+    </div>
     <table id="table">
       <thead>
-        <th>S. no.</th>
-        <th>name</th>
-        <th>username</th>
-        <th>role</th>
+        <th>S.no.</th>
+        <th>Name</th>
+        <th>Username</th>
+        <th>Role</th>
         <th>Actions</th>
       </thead>
       <tbody></tbody>
     </table>
     <button onclick="showHideCreateNewModal()" id="createNewBtn">Add New</button>
-    <div class="d-none backdrop"></div>
+    <div class="d-none backdrop-create"></div>
+    <div class="d-none backdrop-edit"></div>
     <script src="../services.js"></script>
     <script src="../utils.js"></script>
     <script src="dashboard.js"></script>

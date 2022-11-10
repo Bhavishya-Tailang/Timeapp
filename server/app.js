@@ -103,29 +103,30 @@ app.get("/getAllUsers", (req, res) => {
     .catch((err) => console.log(err));
 })
 
-app.listen("3000", () => {
-  console.log("App is running");
-});
 
 //update users
 app.patch('/updateUsers', (req, res) => {
-  const {name, username, role} = req.body;
+  const {id, name, username, role} = req.body;
   const db = dbService.getInstance();
-
-  const result = db.updateUsers(name, username, role);  
+  
+  const result = db.updateUsers(id, name, username, role);  
 
   result 
-  .then(data => res.json({success: "record updated successfully"}))
+  .then(data => res.json({success:data}))
   .catch(err => console.log(err)) 
 });
 
-//delete users with update query
-app.delete('/deleteUsers/:username', (req, res) => {
-  const {username} = req.params;
+//delete users 
+app.delete('/deleteUsers/username=:username&id=:id', (req, res) => {
+  const {username, id} = req.params;
   console.log(req.body);
   const db = dbService.getInstance();
-  const result = db.deleteUsers(username);  
+  const result = db.deleteUsers(username, id); 
   result 
-  .then(() => res.json({success: "record deleted successfully"}))
+  .then((data) => res.json({deleted: data}))
   .catch(err => console.log(err)) 
+});
+
+app.listen("3000", () => {
+  console.log("App is running");
 });
