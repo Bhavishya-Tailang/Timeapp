@@ -179,11 +179,13 @@ function showHideCreateNewModal() {
 
 
 function showHideEditNewModal(event) {
-  event.preventDefault()
   const editModal = document.querySelector('#editModal')
   const backdrop = document.querySelector('.backdrop-create')
   editModal.classList.toggle('d-none')
   backdrop.classList.toggle('d-none')
+  if(event !== undefined) {
+    event.preventDefault()
+  }
 }
 
 function populateEditRolesDropdown(itemsArr) {
@@ -210,12 +212,26 @@ async function getUserRolesEdit(response) {
 }
 
 function updateUser() {
+  showHideEditNewModal()
+  getAllUsers()
+  const nameInput = document.querySelector('#name')
+  const name = nameInput.value;
+  const usernameInput = document.querySelector('#username')
+  const username = usernameInput.value;
+  const roleInput = document.querySelector('#role')
+  const role = roleInput.value;
+  const idInput = document.querySelector('#hiddenUserId')
+  const id = idInput.value;
   fetch(`${baseAddress}/updateUsers`, {
     method: 'PATCH',
     headers: {
       'Content-type': 'application.json'
-    }
+    },
+    body: JSON.stringify({id, name, username, role})
+  }).then (() => {
+    console.log("User updated successfully")
   })
+  .catch(() => console.log("Something went wrong"))
 }
 
 

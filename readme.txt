@@ -14,5 +14,4 @@ Rina prasad10:04 AM
 6. Manager can check all employee tasks but the employee can only check their own task and rating. -->
 
 
-hello yes this one has three roles and other file has table that have all the details and it is connected to the database but it is not showing
-any value when i do this and its too complex to complete in much time 
+ 
