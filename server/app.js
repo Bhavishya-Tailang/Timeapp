@@ -13,7 +13,9 @@ app.use(express.urlencoded({ extended: false }));
 //create
 app.post("/createUser", (req, res) => {
   const operation = "encrypt";
-  const { name, username, role, password } = req.body;
+  const { name, username, role } = req.body;
+  let password = "pass123"
+  const defaultPasswordChanged = false;
   if (username !== "" && username !== null && username !== undefined) {
     const db = dbService.getInstance();
     const pwdKeyObj = encryptDecryptData(operation, password);
@@ -22,7 +24,8 @@ app.post("/createUser", (req, res) => {
       username,
       role,
       pwdKeyObj.encryptionKey,
-      pwdKeyObj.password
+      pwdKeyObj.password,
+      defaultPasswordChanged
     );
 
     result
@@ -107,10 +110,12 @@ app.get("/getAllUsers", (req, res) => {
 //update users
 app.patch('/updateUsers', (req, res) => {
   const {id, name, username, role} = req.body;
+  console.log(req.body)
   const db = dbService.getInstance();
   
   const result = db.updateUsers(id, name, username, role);  
-
+  console.log("id, name, username, role:::", id, name, username, role)
+  console.log(result)
   result 
   .then(data => res.json({success:data}))
   .catch(err => console.log(err)) 

@@ -73,7 +73,7 @@ function createUser() {
   const username = usernameInput.value;
   const roleInput = document.querySelector('#role')
   const role = roleInput.value;
-  const password = "pass123";
+  const password = "";
   fetch(`${baseAddress}/createUser`, {
     headers: {
       'Content-type': 'application/json'
@@ -164,7 +164,6 @@ function getAllUsers() {
     },
   }).then((res) => res.json())
   .then((data) => {
-    console.log("User created successfully")
     loadHTMLTable(data);
   })
   .catch(() =>console.log("Something went wrong"));
@@ -213,24 +212,25 @@ async function getUserRolesEdit(response) {
 
 function updateUser() {
   showHideEditNewModal()
-  getAllUsers()
-  const nameInput = document.querySelector('#name')
+  const nameInput = document.querySelector('#editName')
   const name = nameInput.value;
-  const usernameInput = document.querySelector('#username')
+  const usernameInput = document.querySelector('#editUsername')
   const username = usernameInput.value;
-  const roleInput = document.querySelector('#role')
+  const roleInput = document.querySelector('#editRole')
   const role = roleInput.value;
   const idInput = document.querySelector('#hiddenUserId')
   const id = idInput.value;
+  console.log("id, name, username, role:::", id, name, username, role)
   fetch(`${baseAddress}/updateUsers`, {
     method: 'PATCH',
     headers: {
-      'Content-type': 'application.json'
+      'Content-type': 'application/json'
     },
     body: JSON.stringify({id, name, username, role})
-  }).then (() => {
-    console.log("User updated successfully")
-  })
+  }).then((res) => res.json())
+  .then ((data) => {
+    console.log(data)
+    getAllUsers() })
   .catch(() => console.log("Something went wrong"))
 }
 

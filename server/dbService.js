@@ -23,14 +23,14 @@ class Dbservice {
     }
 
     //create
-    async createUser(name, username, role, encryptionkey, password) {
+    async createUser(name, username, role, encryptionkey, password, defaultPasswordChanged) {
         console.log(password)
         try {
             const dateAdded = new Date();
             const insertUser = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO userdetails (name, username, role, date) VALUES (?,?,?,?);";
+                const query = "INSERT INTO userdetails (name, username, role, date, defaultPasswordChanged) VALUES (?,?,?,?,?);";
                 
-                connection.query(query, [name, username, role, dateAdded], (err, result) => {
+                connection.query(query, [name, username, role, dateAdded, defaultPasswordChanged], (err, result) => {
                     resolve(result.insertUser);
                     if(err) reject(new Error(err.message));
                 });
@@ -134,6 +134,7 @@ class Dbservice {
     }
     //update users 
     async updateUsers(id, name, username, role) {
+        console.log("id, name, username, role:::", id, name, username, role)
         const response = await new Promise((resolve, reject) => {
             const query = `UPDATE userdetails SET name=?, role=? WHERE id=? and username=?;`
 
