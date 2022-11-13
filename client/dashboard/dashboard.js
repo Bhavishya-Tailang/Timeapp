@@ -141,7 +141,6 @@ function loadHTMLTable(data) {
 
 function openEditForm(evt) {
   showHideEditNewModal(evt)
-  console.log(evt.target)
   const button = evt.target
   const usernameValue = button.getAttribute('data-username')
   const usernameInput = document.querySelector('#editUsername')

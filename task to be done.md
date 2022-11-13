@@ -62,5 +62,15 @@ DOne:
         id, date, delete, username, managerId, projectCode
 
 
-updateUser - put api/patch api - name, username, role update query inn db
-deleteUser - put - delete 0 -> 1
+updateUser - put api/patch api - name, username, role update query inn db: DONE
+deleteUser - put - delete 0 -> 1: PENDING
+1. add data attributes
+2. get data attributes from event.target
+3. call fetch api using those data attributes
+
+CHange password: patch -> check if user has changed the default password, if no prompt user to change the password
+1. add a flag column defaultPasswordChanged in userdetails - alter table
+2. update table set defaultPasswordChanged to false for all the records
+2. modify createUser api add defaultPasswordChanged as false
+3. modify getUserDetails api return defaultPasswordChanged with name role and username in response
+4. if defaultPasswordChanged is false, show link to change password
