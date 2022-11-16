@@ -119,7 +119,7 @@ function loadHTMLTable(data) {
   }
   let tableHtml = "";
 
-  data.forEach(({ id, name, username,   role }, idx) => {
+  data.forEach(({ id, name, username, role }, idx) => {
     tableHtml += "<tr>";
     tableHtml += `<td>${idx + 1}</td>`;
     tableHtml += `<td>${name}</td>`;
@@ -133,8 +133,13 @@ function loadHTMLTable(data) {
       data-id=${id}>
       Edit</button>
       </td>`;
-    tableHtml += `<td><button id=${username}_${id}_delete>Delete</button></td>`;
-    tableHtml += "</tr>";
+    tableHtml += `<td>
+      <button onclick="deleteUsers(event)"
+      data-username=${username}
+      data-id=${id}> 
+      Delete</button>
+      </td>`;
+      tableHtml += "</tr>";
   });
   table.innerHTML = tableHtml;
 }
@@ -187,7 +192,7 @@ function showHideEditNewModal(event) {
 }
 
 function populateEditRolesDropdown(itemsArr) {
-  console.log(itemsArr);
+  //console.log(itemsArr);
   // itemsArr = [    "admin",    "manager",    "employee"]
   const roleInput = document.querySelector("#editRole");
   for (let i = 0; i < itemsArr.length; i++) {
@@ -219,13 +224,26 @@ function updateUser() {
   const role = roleInput.value;
   const idInput = document.querySelector('#hiddenUserId')
   const id = idInput.value;
-  console.log("id, name, username, role:::", id, name, username, role)
+  //console.log("id, name, username, role:::", id, name, username, role)
   fetch(`${baseAddress}/updateUsers`, {
     method: 'PATCH',
     headers: {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({id, name, username, role})
+  }).then((res) => res.json())
+  .then ((data) => {
+    console.log(data)
+    getAllUsers() })
+  .catch(() => console.log("Something went wrong"))
+}
+
+function deleteUsers(event) {
+  const button = event.target
+  const username = button.getAttribute('data-username')
+  const id = button.getAttribute('data-id')
+  fetch(`${baseAddress}/deleteUsers/username=${username}&id=${id}`, {
+    method: 'DELETE',
   }).then((res) => res.json())
   .then ((data) => {
     console.log(data)

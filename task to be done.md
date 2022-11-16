@@ -69,8 +69,10 @@ deleteUser - put - delete 0 -> 1: PENDING
 3. call fetch api using those data attributes
 
 CHange password: patch -> check if user has changed the default password, if no prompt user to change the password
-1. add a flag column defaultPasswordChanged in userdetails - alter table
-2. update table set defaultPasswordChanged to false for all the records
-2. modify createUser api add defaultPasswordChanged as false
-3. modify getUserDetails api return defaultPasswordChanged with name role and username in response
-4. if defaultPasswordChanged is false, show link to change password
+1. add a flag column defaultPasswordChanged in userdetails - alter table :- Done
+2. update table set defaultPasswordChanged to false for all the records :- Done
+3. modify createUser api add defaultPasswordChanged as false :- Done
+4. modify getUserDetails api return defaultPasswordChanged with name role and username in response :- Done
+5. if defaultPasswordChanged is false, show link to change password
+6. open modal to change password on click of here button
+7. modal will have 3 inputs|-> old password, new password, confirm password, 2 button |-> submit cancel
