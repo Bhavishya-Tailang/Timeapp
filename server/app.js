@@ -15,7 +15,7 @@ app.post("/createUser", (req, res) => {
   const operation = "encrypt";
   const { name, username, role } = req.body;
   let password = "pass123"
-  const defaultPasswordChanged = false;
+  const defaultPasswordChanged = 0;
   if (username !== "" && username !== null && username !== undefined) {
     const db = dbService.getInstance();
     const pwdKeyObj = encryptDecryptData(operation, password);

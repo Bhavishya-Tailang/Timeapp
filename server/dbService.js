@@ -90,7 +90,7 @@ class Dbservice {
     async getUserDetails(username) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = `SELECT name, role, username FROM userdetails WHERE username =?;`
+                const query = `SELECT name, role, username, defaultPasswordChanged FROM userdetails WHERE username =?;`
 
                 connection.query(query, [username], (err, results) => {
                     if (err) reject(new Error(err.message));
