@@ -1,23 +1,27 @@
+// this will be called on page load
 document.addEventListener("DOMContentLoaded", function () {
   const username = localStorage.getItem("username");
+  // api to get details of user {name, role, username, defaultPasswordChanged}
   fetch(`${baseAddress}/getUserDetails/${username}`)
-    .then((res) => res.json())
+    .then((res) => res.json()) // returning response in json form
     .then((response) => {
-      getUserRoles(response)
+      getUserRoles(response) // called to get get roles on the basis of username in api parameter
       actionAfterGettingUserDetails(response)
       getUserRolesEdit(response)
       getAllUsers()
+      hideShowSpan(response)
     })
     .catch((err) => console.log(err));
 });
 
 // getting roles accroding to the user role
-async function getUserRoles (response) {
-    const {role} = response
-    await fetch(`${baseAddress}/getUserRoles/${role}`)
+async function getUserRoles (response) { // response received from getUserDetails api
+    const { role }= response
+    
+    await fetch(`${baseAddress}/getUserRoles/${role}`)    //api to get roles the respective manager/admin can assign while creating any user
       .then((res) => res.json())
       .then((response) => {
-        populateRolesDropdown(response)
+        populateRolesDropdown(response) // function to populate roles in the roles dropdown
       })
       .catch((err) => console.log(err));
 }
@@ -35,8 +39,8 @@ function populateRolesDropdown(itemsArr) {
   }
 }
 
-function createViewForAdmin(name) {
-  showMessage(name);
+function createViewForAdmin(name) {           // function to show message with name
+  showMessage(name);                          // calling show message function
 }
 function createViewForEmployee(name) {
   showMessage(name);
@@ -45,23 +49,23 @@ function createViewForManager(name) {
   showMessage(name);
 }
 
-function showMessage(name) {
+function showMessage(name) {                                        
   const showMessage = document.querySelector("#text");
   const message = "Welcome" + " " + name;
   showMessage.innerHTML = message;
 }
 
-function actionAfterGettingUserDetails(response) {
+function actionAfterGettingUserDetails(response) {    // response received from getUserDetails api
   const { name, role } = response;
   switch (role) {
     case "admin":
-      createViewForAdmin(name);
+      createViewForAdmin(name);         // show name of admin if role is admin
       break;
     case "employee":
-      createViewForEmployee(name);
+      createViewForEmployee(name);    // show name of employee if role is employee
       break;
     case "manager":
-      createViewForManager(name);
+      createViewForManager(name);     // show name of manager if role is manager
       break;
   }
 }
@@ -183,12 +187,19 @@ function showHideCreateNewModal() {
 
 function showHideEditNewModal(event) {
   const editModal = document.querySelector('#editModal')
-  const backdrop = document.querySelector('.backdrop-create')
+  const backdrop = document.querySelector('.backdrop-edit')
   editModal.classList.toggle('d-none')
   backdrop.classList.toggle('d-none')
   if(event !== undefined) {
     event.preventDefault()
   }
+}
+
+function showHideChangePasswordModal() {
+  const changePassword = document.querySelector('#checkPasswordModal')
+  const backdrop = document.querySelector('.backdrop-create')
+  changePassword.classList.toggle('d-none')
+  backdrop.classList.toggle('d-none')
 }
 
 function populateEditRolesDropdown(itemsArr) {
@@ -250,6 +261,21 @@ function deleteUsers(event) {
     getAllUsers() })
   .catch(() => console.log("Something went wrong"))
 }
+
+function checkPasswordChanged() {
+  showHideChangePasswordModal()
+}
+
+function hideShowSpan(response) {
+  const span = document.querySelector('#span')
+  const { defaultPasswordChanged } = response
+  if (defaultPasswordChanged === 0) {
+    span.hidden = false
+  }
+}
+
+
+
 
 
 

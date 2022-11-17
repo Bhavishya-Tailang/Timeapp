@@ -73,6 +73,6 @@ CHange password: patch -> check if user has changed the default password, if no 
 2. update table set defaultPasswordChanged to false for all the records :- Done
 3. modify createUser api add defaultPasswordChanged as false :- Done
 4. modify getUserDetails api return defaultPasswordChanged with name role and username in response :- Done
-5. if defaultPasswordChanged is false, show link to change password
+5. if defaultPasswordChanged is 0, show link to change password
 6. open modal to change password on click of here button
-7. modal will have 3 inputs|-> old password, new password, confirm password, 2 button |-> submit cancel
+7. modal will have 3 inputs|-> old password, new password, confirm password, 2 button |-> submit cancel :-Done

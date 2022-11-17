@@ -13,6 +13,7 @@
   </head>
   <body>
     <h4 id="text"></h4>
+    <span hidden id="span">Click  <button onclick="showHideChangePasswordModal()" id="changePassword" >here</button>  to change password.</span>
     <div id="modalCreate" class="d-none">
       <form method="post" action="javascript:createUser()">
         <div>
@@ -73,6 +74,41 @@
         </div>
       </form>
     </div>
+    <div id="checkPasswordModal" class="d-none">
+      <form action="javascript:checkPasswordChanged()">
+        <div>
+          <!-- <label for="oldPassword">Old Password </label> -->
+          <input
+            type="text" 
+            id="oldPassword"
+            placeholder="old password"
+            name="old password"
+            required
+          />
+          <br /><br />
+          <!-- <label for="newPassword">New Password </label> -->
+          <input
+            type="text"
+            id="newPassword"
+            placeholder="new password"
+            name="new password"
+            required
+          />
+          <br /><br />
+          <!-- <label for="confirmPassord">Confirm Password </label> -->
+          <input
+            type="text"
+            id="confirmPassword"
+            placeholder="confirm password"
+            name="confirm password"
+            required
+          />
+          <br /><br>
+          <input type="submit" onclick="showHideChangePasswordModal()" id="submitPassword" />
+          <button id="cancelPassword" onclick="showHideChangePasswordModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
     <table id="table">
       <thead>
         <th>S.no.</th>
@@ -86,6 +122,7 @@
     <button onclick="showHideCreateNewModal()" id="createNewBtn">Add New</button>
     <div class="d-none backdrop-create"></div>
     <div class="d-none backdrop-edit"></div>
+    <div class="d-none backdrop-changePassword"></div>
     <script src="../services.js"></script>
     <script src="../utils.js"></script>
     <script src="dashboard.js"></script>
