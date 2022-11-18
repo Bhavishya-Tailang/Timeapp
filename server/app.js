@@ -45,7 +45,7 @@ app.post("/checkLogin", (req, res) => {
   .then((data) => {
     console.log(data);
     if (
-      username === data[0]?.username &&
+      username === data[0]?.username &&                                               // checking in input and database
       role === data[0]?.role &&
       password ===
         encryptDecryptData(operation, data[0]?.password, data[0]?.encryptionKey)

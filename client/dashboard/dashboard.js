@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch(`${baseAddress}/getUserDetails/${username}`)
     .then((res) => res.json()) // returning response in json form
     .then((response) => {
-      getUserRoles(response) // called to get get roles on the basis of username in api parameter
-      actionAfterGettingUserDetails(response)
-      getUserRolesEdit(response)
-      getAllUsers()
-      hideShowSpan(response)
+      getUserRoles(response) // called to get roles on the basis of username in api parameter
+      actionAfterGettingUserDetails(response) // called to get view of admin, manager or employee
+      getUserRolesEdit(response)  // called to get roles in edit modal on the basis of username in api parameter
+      getAllUsers()       // called to get user details without detials of admin.
+      hideShowSpan(response)  // called to show or hide change password message on the basis of default password change in getUserDetails api
     })
     .catch((err) => console.log(err));
 });
@@ -26,12 +26,12 @@ async function getUserRoles (response) { // response received from getUserDetail
       .catch((err) => console.log(err));
 }
 
-function populateRolesDropdown(itemsArr) {
+function populateRolesDropdown(itemsArr) {                                  // function to add roles in dropdown
   console.log(itemsArr);
   // itemsArr = [    "admin",    "manager",    "employee"]
   const roleInput = document.querySelector("#role");
   for (let i = 0; i < itemsArr.length; i++) {
-    const optionElement = document.createElement("option");
+    const optionElement = document.createElement("option");                 // creating option element 
     optionElement.setAttribute("value", itemsArr[i]);
     optionElement.setAttribute("id", itemsArr[i]);
     optionElement.textContent = itemsArr[i];
@@ -49,27 +49,28 @@ function createViewForManager(name) {
   showMessage(name);
 }
 
-function showMessage(name) {                                        
+function showMessage(name) {                              // function to show welcome message                       
   const showMessage = document.querySelector("#text");
   const message = "Welcome" + " " + name;
-  showMessage.innerHTML = message;
+  showMessage.innerHTML = message;                      // it will show welcome message with name
 }
 
 function actionAfterGettingUserDetails(response) {    // response received from getUserDetails api
   const { name, role } = response;
   switch (role) {
     case "admin":
-      createViewForAdmin(name);         // show name of admin if role is admin
+      createViewForAdmin(name);         // show view of admin if role is admin
       break;
     case "employee":
-      createViewForEmployee(name);    // show name of employee if role is employee
+      createViewForEmployee(name);    // show view of employee if role is employee
       break;
     case "manager":
-      createViewForManager(name);     // show name of manager if role is manager
+      createViewForManager(name);     // show view of manager if role is manager
       break;
   }
 }
 
+// function to create user 
 function createUser() {
   const nameInput = document.querySelector('#name')
   const name = nameInput.value;
@@ -78,7 +79,7 @@ function createUser() {
   const roleInput = document.querySelector('#role')
   const role = roleInput.value;
   const password = "";
-  fetch(`${baseAddress}/createUser`, {
+  fetch(`${baseAddress}/createUser`, {    // api to create user 
     headers: {
       'Content-type': 'application/json'
     },
@@ -86,8 +87,8 @@ function createUser() {
     body: JSON.stringify({name, username, role, password}),
   }).then(() => {
     console.log("User created successfully")
-    getAllUsers();
-    showHideCreateNewModal()
+    getAllUsers();                                                    // called to get details of users without details of user
+    showHideCreateNewModal()                                          // called to show create modal 
   })
   .catch(() =>console.log("Something went wrong"));
 }
@@ -165,8 +166,8 @@ function openEditForm(evt) {
   idInput.value = idValue
 }
 
-function getAllUsers() {
-  fetch(`${baseAddress}/getAllUsers`, {
+function getAllUsers() {                                    // function to get details of all users but not admin
+  fetch(`${baseAddress}/getAllUsers`, {                     // api to get the details of user
     headers: {
       'Content-type': 'application/json'
     },
@@ -215,8 +216,8 @@ function populateEditRolesDropdown(itemsArr) {
   }
 }
 
-async function getUserRolesEdit(response) {
-  const {role} = response
+async function getUserRolesEdit(response) {                            // 
+  const {role} = response 
   await fetch(`${baseAddress}/getUserRoles/${role}`)
     .then((res) => res.json())
     .then((response) => {
