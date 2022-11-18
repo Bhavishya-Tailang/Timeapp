@@ -93,18 +93,18 @@ function createUser() {
   .catch(() =>console.log("Something went wrong"));
 }
 
-function checkUserExists() {
+function checkUserExists() {                                        // function to check if user exist while creating new
   const username = document.querySelector('#username')
   const userExistMessage = document.querySelector('#userExists')
-  fetch(`${baseAddress}/checkUserExists/${username.value}`, {
+  fetch(`${baseAddress}/checkUserExists/${username.value}`, {      // api to check username exists while creating user
     headers: {
       'Content-type': 'application/json'
     }
   }).then((res) => res.json())
   .then((data) => {
     console.log(data);
-    if (data.found) {
-      userExistMessage.textContent = "user already exists!!"
+    if (data.found) {                                               // if username is found
+      userExistMessage.textContent = "user already exists!!"        // it will show message that user exist otherwise username available
     }
     else {
       userExistMessage.textContent = "username available"
@@ -119,19 +119,19 @@ function loadHTMLTable(data) {
 
   //if data is empty inside the table
   if (data.length === 0) {
-    table.innerHTML = "<tr><td class='no-data' colspan='4'>No Data</td></tr>";
+    table.innerHTML = "<tr><td class='no-data' colspan='4'>No Data</td></tr>";    // if there is no data in table "No Data" is shown
     return;
   }
-  let tableHtml = "";
+  let tableHtml = "";                // empty table
 
-  data.forEach(({ id, name, username, role }, idx) => {
+  data.forEach(({ id, name, username, role }, idx) => {             // starting loop 
     tableHtml += "<tr>";
-    tableHtml += `<td>${idx + 1}</td>`;
+    tableHtml += `<td>${idx + 1}</td>`;   // increment the number from 1
     tableHtml += `<td>${name}</td>`;
     tableHtml += `<td>${username}</td>`;
     tableHtml += `<td>${role}</td>`;
     tableHtml += `<td>
-      <button onclick=openEditForm(event) 
+      <button onclick=openEditForm(event)   // called to open edit modal
       data-username=${username} 
       data-name=${name} 
       data-role=${role}
@@ -173,37 +173,37 @@ function getAllUsers() {                                    // function to get d
     },
   }).then((res) => res.json())
   .then((data) => {
-    loadHTMLTable(data);
+    loadHTMLTable(data);                                   // called to get  html table with details of user 
   })
   .catch(() =>console.log("Something went wrong"));
 }
 
-function showHideCreateNewModal() {
+function showHideCreateNewModal() {                             // function to show or hide add new modal
   const modal = document.querySelector('#modalCreate')
   const backdrop = document.querySelector('.backdrop-create')
-  modal.classList.toggle('d-none')
-  backdrop.classList.toggle('d-none')
+  modal.classList.toggle('d-none')                              // toggle(add or remove) class of modal
+  backdrop.classList.toggle('d-none')                           // toggle(add or remove) class of backdrop
 }
 
 
-function showHideEditNewModal(event) {
+function showHideEditNewModal(event) {                         // function to show or hide edit modal
   const editModal = document.querySelector('#editModal')
   const backdrop = document.querySelector('.backdrop-edit')
   editModal.classList.toggle('d-none')
   backdrop.classList.toggle('d-none')
   if(event !== undefined) {
-    event.preventDefault()
+    event.preventDefault()                                    // stop event bubbling
   }
 }
 
-function showHideChangePasswordModal() {
+function showHideChangePasswordModal() {                                  // function to show or hide change password modal
   const changePassword = document.querySelector('#checkPasswordModal')
   const backdrop = document.querySelector('.backdrop-create')
   changePassword.classList.toggle('d-none')
   backdrop.classList.toggle('d-none')
 }
 
-function populateEditRolesDropdown(itemsArr) {
+function populateEditRolesDropdown(itemsArr) {                          // function to populate roles in edit while updating 
   //console.log(itemsArr);
   // itemsArr = [    "admin",    "manager",    "employee"]
   const roleInput = document.querySelector("#editRole");
@@ -216,18 +216,18 @@ function populateEditRolesDropdown(itemsArr) {
   }
 }
 
-async function getUserRolesEdit(response) {                            // 
+async function getUserRolesEdit(response) {                            // response received from getUserDetails api
   const {role} = response 
-  await fetch(`${baseAddress}/getUserRoles/${role}`)
+  await fetch(`${baseAddress}/getUserRoles/${role}`)                  //api to get roles the respective manager/admin can assign while creating any user
     .then((res) => res.json())
     .then((response) => {
-      populateEditRolesDropdown(response)
+      populateEditRolesDropdown(response)                             // called to populate roles
     })
     .catch((err) => console.log(err));
 }
 
-function updateUser() {
-  showHideEditNewModal()
+function updateUser() {                                                       // function to update user
+  showHideEditNewModal()                                                      // called to show or hide edit modal
   const nameInput = document.querySelector('#editName')
   const name = nameInput.value;
   const usernameInput = document.querySelector('#editUsername')
@@ -237,7 +237,7 @@ function updateUser() {
   const idInput = document.querySelector('#hiddenUserId')
   const id = idInput.value;
   //console.log("id, name, username, role:::", id, name, username, role)
-  fetch(`${baseAddress}/updateUsers`, {
+  fetch(`${baseAddress}/updateUsers`, {                                      // api to update users
     method: 'PATCH',
     headers: {
       'Content-type': 'application/json'
@@ -246,7 +246,7 @@ function updateUser() {
   }).then((res) => res.json())
   .then ((data) => {
     console.log(data)
-    getAllUsers() })
+    getAllUsers() })                                                // called to update the html table and get user value
   .catch(() => console.log("Something went wrong"))
 }
 
@@ -254,23 +254,23 @@ function deleteUsers(event) {
   const button = event.target
   const username = button.getAttribute('data-username')
   const id = button.getAttribute('data-id')
-  fetch(`${baseAddress}/deleteUsers/username=${username}&id=${id}`, {
+  fetch(`${baseAddress}/deleteUsers/username=${username}&id=${id}`, {     // api to delete user by setting username and id as variables
     method: 'DELETE',
   }).then((res) => res.json())
   .then ((data) => {
     console.log(data)
-    getAllUsers() })
+    getAllUsers() })                                          // called to update the html table and get user value
   .catch(() => console.log("Something went wrong"))
 }
 
 function checkPasswordChanged() {
-  showHideChangePasswordModal()
+  showHideChangePasswordModal()                                   // called to show or hide password modal 
 }
 
-function hideShowSpan(response) {
+function hideShowSpan(response) {                 // response received from getUserDetails api
   const span = document.querySelector('#span')
   const { defaultPasswordChanged } = response
-  if (defaultPasswordChanged === 0) {
+  if (defaultPasswordChanged === 0) {           // condition to show change password message
     span.hidden = false
   }
 }

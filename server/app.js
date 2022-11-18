@@ -13,13 +13,13 @@ app.use(express.urlencoded({ extended: false }));
 //create
 app.post("/createUser", (req, res) => {
   const operation = "encrypt";
-  const { name, username, role } = req.body;
+  const { name, username, role } = req.body;                                // getting key values
   let password = "pass123"
   const defaultPasswordChanged = 0;
   if (username !== "" && username !== null && username !== undefined) {
     const db = dbService.getInstance();
     const pwdKeyObj = encryptDecryptData(operation, password);
-    const result = db.createUser(
+    const result = db.createUser(                                           // data that will be sent back
       name,
       username,
       role,
@@ -45,7 +45,7 @@ app.post("/checkLogin", (req, res) => {
   .then((data) => {
     console.log(data);
     if (
-      username === data[0]?.username &&                                               // checking in input and database
+      username === data[0]?.username &&                                               // checking in input and database if values match
       role === data[0]?.role &&
       password ===
         encryptDecryptData(operation, data[0]?.password, data[0]?.encryptionKey)
@@ -60,7 +60,7 @@ app.post("/checkLogin", (req, res) => {
 });
 
 // get role
-app.get("/getUserDetails/:username", (req, res) => {
+app.get("/getUserDetails/:username", (req, res) => {      // api to get details of users  like name, role, username, defaultPasswordChanged
   const { username } = req.params;
   const db = dbService.getInstance();
   db.getUserDetails(username)
@@ -69,9 +69,9 @@ app.get("/getUserDetails/:username", (req, res) => {
 });
 
 // getting role according to login
-app.get("/getUserRoles/:role?", (req, res) => {
+app.get("/getUserRoles/:role?", (req, res) => {              // api to get role on different cases when user login 
   const { role } = req.params;
-  switch (role) {
+  switch (role) {                                           // different cases to show roles in dropdown
     case undefined:
       return res.json(["admin", "manager", "employee"]);
     case "admin":
@@ -84,14 +84,14 @@ app.get("/getUserRoles/:role?", (req, res) => {
 });
 
 //check duplicate users
-app.get("/checkUserExists/:username", (req, res) => {
+app.get("/checkUserExists/:username", (req, res) => {             // api to check username if exist
   const { username } = req.params;
   const db = dbService.getInstance();
   db.checkUserExists(username)
     .then((data) => {
-        console.log(data, data.length);
-        if(data.length > 0) {
-            return res.json({found: true});
+        //console.log(data, data.length);
+        if(data.length > 0) {                         // condition to check if length of data is greater than 0
+            return res.json({found: true});           // if true response will be true otherwise false
         }
         return res.json({found: false});
     })
@@ -99,7 +99,7 @@ app.get("/checkUserExists/:username", (req, res) => {
 });
 
 //getting all users
-app.get("/getAllUsers", (req, res) => {
+app.get("/getAllUsers", (req, res) => {         // api to get manager and employee details 
     const db= dbService.getInstance();
     db.getAllUsers()
     .then((data) => res.json(data))
@@ -108,7 +108,7 @@ app.get("/getAllUsers", (req, res) => {
 
 
 //update users
-app.patch('/updateUsers', (req, res) => {
+app.patch('/updateUsers', (req, res) => {                                 // api to update details of user on the basis of id and username
   const {id, name, username, role} = req.body;
   console.log(req.body)
   const db = dbService.getInstance();
