@@ -162,6 +162,45 @@ class Dbservice {
     } catch(error) {
         console.log(error);
     }
+
+    //check password
+    async checkPassword(defaultPasswordChanged, encryptionKey, password) {
+        try {
+            const userdetails =await new Promise((resolve, reject) => {
+                const query = `UPDATE userdetails SET defaultPasswordChanged=? WHERE username=?;`
+
+                connection.query(query, [defaultPasswordChanged]), (err, results) => {
+                    resolve(results.userdetails);
+                    if(err) reject(new Error(err.message));
+                }
+            })
+            const encryptionkeydetails =await new Promise((resolve, reject) => {
+                const query = `UPDATE userdetails SET encryptionKey=? WHERE username=?;`
+
+                connection.query(query, [encryptionKey]), (err, results) => {
+                    resolve(results.encryptionkeydetails);
+                    if(err) reject(new Error(err.message));
+                }
+            })
+            const usercredentialdetails =await new Promise((resolve, reject) => {
+                const query = `UPDATE userdetails SET password=? WHERE username=?;`
+
+                connection.query(query, [password]), (err, results) => {
+                    resolve(results.usercredentialdetails);
+                    if(err) reject(new Error(err.message));
+                }
+            })
+            const areApiSuccessful = await Promise.all([userdetails, encryptionkeydetails, usercredentialdetails]);
+            return {
+                id: areApiSuccessful,
+                defaultPasswordChanged: defaultPasswordChanged,
+                encryptionKey: encryptionKey,
+                password: password
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 
