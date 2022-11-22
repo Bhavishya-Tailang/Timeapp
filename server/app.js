@@ -126,11 +126,23 @@ app.delete('/deleteUsers/username=:username&id=:id', (req, res) => {
   const {username, id} = req.params;
   console.log(req.body);
   const db = dbService.getInstance();
-  const result = db.deleteUsers(username, id); 
-  result 
-  .then((data) => res.json({deleted: data}))
-  .catch(err => console.log(err)) 
+  db.getEncryptKey(username)
+  .then((encryptionKeyData) => {
+    const result = db.deleteUsers(username, id, encryptionKeyData[0]?.encryptionKey); 
+    return result.then((data) => res.json({deleted: data}))
+    .catch(err => console.log(err)) 
+  }).catch(err => console.log(err)) 
+  
 });
+
+app.patch('/changePassword',( req, res) => {
+  const p1 = `promise of checkPasswordChanged.`
+  const p2 = `change password`
+
+  // Promise.all([p1, p2])
+  // .then(res => res.json({success: true}))
+  // .catch(err => console.log(err)) 
+}) 
 
 app.listen("3000", () => {
   console.log("App is running");

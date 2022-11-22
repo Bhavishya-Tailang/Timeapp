@@ -76,3 +76,12 @@ CHange password: patch -> check if user has changed the default password, if no 
 5. if defaultPasswordChanged is 0, show link to change password
 6. open modal to change password on click of here button
 7. modal will have 3 inputs|-> old password, new password, confirm password, 2 button |-> submit cancel :-Done
+
+8. create api -> oldPassword, newPassword, username
+9. call this api on submit
+10. api should accept oldPassword, newPassword, username in req.body
+11. create checkPassword in dbService
+    a. oldPassword, newPassword, username in parameters
+    b. get password from username and resolve the promise
+    c. decrypt password
+    d. compare password with old and new

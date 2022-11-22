@@ -15,3 +15,7 @@ const encryptDecryptData = function(method, data, encryptionKey = '') {
 }
 
 module.exports = encryptDecryptData;
+
+// encryptDecryptData(operation, password);
+// encryptDecryptData(operation, data[0]?.password, data[0]?.encryptionKey)
+
