@@ -146,8 +146,11 @@ app.patch('/changePassword',( req, res) => {
     const result = db.getPassword(encryptionKey[0]?.encryptionKey)
     result.then(encryptedPssword => {
       const decryptedPassword = encryptDecryptData(operation, encryptedPssword[0].password, encryptionKey[0]?.encryptionKey)
-      console.log("decryptedPassword:::", decryptedPassword)
-      console.log("encryptDecryptData::: ", encryptedPssword)
+      // console.log("decryptedPassword:::", decryptedPassword)
+      // console.log("encryptDecryptData::: ", encryptedPssword)
+      if (decryptedPassword === oldPassword) {
+        changePassword()
+      }
     })
   })
 
