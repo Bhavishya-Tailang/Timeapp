@@ -274,9 +274,3 @@ function hideShowSpan(response) {                 // response received from getU
     span.hidden = false
   }
 }
-
-
-
-
-
-

@@ -225,15 +225,7 @@ class Dbservice {
             if (err) reject(new Error(err.message));
           };
       });
-      const encryptionkeydetails = await new Promise((resolve, reject) => {
-        const query = `UPDATE encryptionkeydetails SET encryptionKey=? WHERE username=?;`;
-
-        connection.query(query, [encryptionKey, username]),
-          (err, results) => {
-            resolve(results.encryptionkeydetails);
-            if (err) reject(new Error(err.message));
-          };
-      });
+  
       const usercredentialdetails = await new Promise((resolve, reject) => {
         const query = `UPDATE usercredentialdetails SET password=? WHERE encryptionKey=?;`;
 
@@ -245,7 +237,6 @@ class Dbservice {
       });
       const areApiSuccessful = await Promise.all([
         userdetails,
-        encryptionkeydetails,
         usercredentialdetails,
       ]);
       return {
@@ -262,9 +253,20 @@ class Dbservice {
   // check password criteria
   // old password should be different from new one
   // entered old password should match password in database
-  async checkPassword(oldPassowrd, newPassword, username) {
-    
-    return password === oldPassowrd || password === newPassword 
+  async getPassword(encryptionKey) {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = `SELECT password FROM usercredentialdetails WHERE encryptionKey =?;`
+
+        connection.query(query, [encryptionKey], (err, results) => {
+          if(err) reject(new Error(err.message))
+          resolve (results)
+        })
+      })
+      return response
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 // getting encryptionKey

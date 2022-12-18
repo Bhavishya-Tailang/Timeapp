@@ -5,6 +5,7 @@ const encryptDecryptData = require("./util");
 const cors = require("cors");
 const { response } = require("express");
 const { keyIn } = require("readline-sync");
+const Dbservice = require("./dbService");
 
 app.use(cors());
 app.use(express.json());
@@ -136,12 +137,20 @@ app.delete('/deleteUsers/username=:username&id=:id', (req, res) => {
 });
 
 app.patch('/changePassword',( req, res) => {
-  const p1 = `promise of checkPasswordChanged.`
-  const p2 = `change password`
+  console.log(req.body)
+  const {oldPassword, newPassword, username} = req.body
+  const operation = 'decrypt'
+  const db = dbService.getInstance()
+  db.getEncryptKey(username)
+  .then((encryptionKey) => {
+    const result = db.getPassword(encryptionKey[0]?.encryptionKey)
+    result.then(encryptedPssword => {
+      const decryptedPassword = encryptDecryptData(operation, encryptedPssword[0].password, encryptionKey[0]?.encryptionKey)
+      console.log("decryptedPassword:::", decryptedPassword)
+      console.log("encryptDecryptData::: ", encryptedPssword)
+    })
+  })
 
-  // Promise.all([p1, p2])
-  // .then(res => res.json({success: true}))
-  // .catch(err => console.log(err)) 
 }) 
 
 app.listen("3000", () => {
