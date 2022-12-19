@@ -48,8 +48,7 @@ app.post("/checkLogin", (req, res) => {
     if (
       username === data[0]?.username &&                                               // checking in input and database if values match
       role === data[0]?.role &&
-      password ===
-        encryptDecryptData(operation, data[0]?.password, data[0]?.encryptionKey)
+      password === encryptDecryptData(operation, data[0]?.password, data[0]?.encryptionKey)
     ) {
       return res.status(200).send({ status: 200, message: "login successful" });
     } else {
@@ -141,17 +140,28 @@ app.patch('/changePassword',( req, res) => {
   const {oldPassword, newPassword, username} = req.body
   const operation = 'decrypt'
   const db = dbService.getInstance()
-  db.getEncryptKey(username)
+  return db.getEncryptKey(username)
   .then((encryptionKey) => {
     const result = db.getPassword(encryptionKey[0]?.encryptionKey)
-    result.then(encryptedPssword => {
-      const decryptedPassword = encryptDecryptData(operation, encryptedPssword[0].password, encryptionKey[0]?.encryptionKey)
-      // console.log("decryptedPassword:::", decryptedPassword)
-      // console.log("encryptDecryptData::: ", encryptedPssword)
+    return result.then(encryptedPassword => {
+      const decryptedPassword = encryptDecryptData(operation, encryptedPassword[0].password, encryptionKey[0]?.encryptionKey)
+      console.log("decryptedPassword:::", decryptedPassword)
+      console.log("encryptDecryptData::: ", encryptedPassword)
       if (decryptedPassword === oldPassword) {
-        changePassword()
+        console.log("decrypteedData")
+        return db.changePassword(username, 1, encryptionKey[0]?.encryptionKey, encryptDecryptData('encrypt', newPassword, encryptionKey[0]?.encryptionKey))
+        .then(() => {
+          return res.json({ status: 200 })
+        }).catch(() => {
+          return res.status(500).send({ message: "change your password" })
+        })
       }
+    }).catch((err) => {
+      console.log(err)
+      return res.status(500).send({ message: "change your password1" })
     })
+  }).catch(() => {
+    return res.status(500).send({ message: "change your password" })
   })
 
 }) 

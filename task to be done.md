@@ -31,8 +31,8 @@ DOne:
 
 
 2.  dashboard
-        table creation: tasksDetail
-        id, date, delete, username, managerId, projectCode, projectName, rating, enteredTime, employeeRemarks, managerRemarks, status
+        table creation: taskDetails
+        id, date, username, managerId, projectCode, projectName, rating, enteredTime, employeeRemarks, managerRemarks, status
         tasks:
             manager will add an employee - createUser - DOne
             manager will be creating a project and assign to an employee and time required - createTask - post

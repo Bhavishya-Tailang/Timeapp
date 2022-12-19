@@ -214,26 +214,26 @@ class Dbservice {
   }
 
   //change password
-  async changePassword( username, defaultPasswordChanged, encryptionKey, password) {
+  async changePassword(username, defaultPasswordChanged, encryptionKey, password) {
     try {
       const userdetails = await new Promise((resolve, reject) => {
         const query = `UPDATE userdetails SET defaultPasswordChanged=? WHERE username=?;`;
 
-        connection.query(query, [defaultPasswordChanged, username]),
+        connection.query(query, [defaultPasswordChanged, username],
           (err, results) => {
-            resolve(results.userdetails);
+            resolve(results);
             if (err) reject(new Error(err.message));
-          };
+          });
       });
   
       const usercredentialdetails = await new Promise((resolve, reject) => {
         const query = `UPDATE usercredentialdetails SET password=? WHERE encryptionKey=?;`;
 
-        connection.query(query, [password, encryptionKey]),
+        connection.query(query, [password, encryptionKey],
           (err, results) => {
-            resolve(results.usercredentialdetails);
+            resolve(results);
             if (err) reject(new Error(err.message));
-          };
+          });
       });
       const areApiSuccessful = await Promise.all([
         userdetails,
