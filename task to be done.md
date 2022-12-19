@@ -85,3 +85,9 @@ CHange password: patch -> check if user has changed the default password, if no 
     b. get password from username and resolve the promise
     c. decrypt password
     d. compare password with old and new
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+manager use cases:
+    1.  manager will login:-
+        a. show message for successful login
+        b. table shows only detials of employees
