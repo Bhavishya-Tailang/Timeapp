@@ -91,3 +91,5 @@ manager use cases:
     1.  manager will login:-
         a. show message for successful login
         b. table shows only detials of employees
+        c. add column for actions 
+        d.  
