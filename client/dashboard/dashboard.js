@@ -1,9 +1,9 @@
+const dashboardServiceInstance = new DashboardServices()
+
 // this will be called on page load
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const username = localStorage.getItem("username");
-  // api to get details of user {name, role, username, defaultPasswordChanged}
-  fetch(`${baseAddress}/getUserDetails/${username}`)
-    .then((res) => res.json()) // returning response in json form
+  await dashboardServiceInstance.getUserDetails$(username) // returning response in json form
     .then((response) => {
       getUserRoles(response) // called to get roles on the basis of username in api parameter
       actionAfterGettingUserDetails(response) // called to get view of admin, manager or employee
@@ -18,8 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 async function getUserRoles (response) { // response received from getUserDetails api
     const { role }= response
     
-    await fetch(`${baseAddress}/getUserRoles/${role}`)    //api to get roles the respective manager/admin can assign while creating any user
-      .then((res) => res.json())
+    await dashboardServiceInstance.getUserRoles$(role)
       .then((response) => {
         populateRolesDropdown(response) // function to populate roles in the roles dropdown
       })
@@ -71,7 +70,7 @@ function actionAfterGettingUserDetails(response) {    // response received from 
 }
 
 // function to create user 
-function createUser() {
+async function createUser() {
   const nameInput = document.querySelector('#name')
   const name = nameInput.value;
   const usernameInput = document.querySelector('#username')
@@ -79,13 +78,8 @@ function createUser() {
   const roleInput = document.querySelector('#role')
   const role = roleInput.value;
   const password = "";
-  fetch(`${baseAddress}/createUser`, {    // api to create user 
-    headers: {
-      'Content-type': 'application/json'
-    },
-    method: 'POST',
-    body: JSON.stringify({name, username, role, password}),
-  }).then(() => {
+  await dashboardServiceInstance.createUser$(name, username, role, password) // returnin response in json form
+  .then(() => {
     console.log("User created successfully")
     getAllUsers();                                                    // called to get details of users without details of user
     showHideCreateNewModal()                                          // called to show create modal 
@@ -93,14 +87,10 @@ function createUser() {
   .catch(() =>console.log("Something went wrong"));
 }
 
-function checkUserExists() {                                        // function to check if user exist while creating new
+async function checkUserExists() {                                        // function to check if user exist while creating new
   const username = document.querySelector('#username')
   const userExistMessage = document.querySelector('#userExists')
-  fetch(`${baseAddress}/checkUserExists/${username.value}`, {      // api to check username exists while creating user
-    headers: {
-      'Content-type': 'application/json'
-    }
-  }).then((res) => res.json())
+  await dashboardServiceInstance.checkUserExists$(username)
   .then((data) => {
     console.log(data);
     if (data.found) {                                               // if username is found
@@ -178,11 +168,14 @@ function getAllUsers() {                                    // function to get d
   .catch(() =>console.log("Something went wrong"));
 }
 
-function showHideCreateNewModal() {                             // function to show or hide add new modal
+function showHideCreateNewModal(event) {                             // function to show or hide add new modal
   const modal = document.querySelector('#modalCreate')
   const backdrop = document.querySelector('.backdrop-create')
   modal.classList.toggle('d-none')                              // toggle(add or remove) class of modal
   backdrop.classList.toggle('d-none')                           // toggle(add or remove) class of backdrop
+  if(event !== undefined) {
+    event.preventDefault()                                    // stop event bubbling
+  }
 }
 
 

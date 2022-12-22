@@ -41,7 +41,7 @@
           <select name="roleForDashboard" id="role"></select
           ><br />
           <input type="submit" id="submit" />
-          <button id="cancel" onclick="showHideCreateNewModal()">Cancel</button>
+          <button id="cancel" onclick="showHideCreateNewModal(event)">Cancel</button>
         </div>
       </form>
     </div>
@@ -123,7 +123,7 @@
     <div class="d-none backdrop-create"></div>
     <div class="d-none backdrop-edit"></div>
     <div class="d-none backdrop-changePassword"></div>
-    <script src="../services.js"></script>
+    <script src="../dashboard-services.js"></script>
     <script src="../utils.js"></script>
     <script src="dashboard.js"></script>
   </body>

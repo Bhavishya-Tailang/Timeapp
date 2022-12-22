@@ -92,4 +92,17 @@ manager use cases:
         a. show message for successful login
         b. table shows only detials of employees
         c. add column for actions 
-        d.  
+        d. actions have approve and deny for manager
+        e. manager can add employees as well as project
+        f. manager can see project details
+        g. manager and employees responsibility with details
+        h. every modal should be generic
+
+    2. make projectDetails table with columns
+        projectName, projectId, assignedTo, managerName, timeRequired
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+1. generalize grid creation logic and move it to utils
+2. generalize popup creation and make it singleton and move it to utils
+3. make generic functions to get elements
+4. move all the fetch calls in service
