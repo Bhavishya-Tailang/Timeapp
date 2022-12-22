@@ -45,3 +45,17 @@ create table `taskDetails` (
     `status` varchar(255) not null,
     primary key(`id`))
 Engine = InnoDB;
+
+--------------------------------------------------------------------------------------------------------
+
+create table `employement`(
+     `empid` int(255) not null primary key,
+     `empprofile` varchar(255) not null,
+     `empcountry` varchar(255) not null,
+     `empjoindate` date)
+     Engine = InnoDB;
+
+
+insert into employee values (
+    '102', 'Raj Choudhary', '846'
+);
